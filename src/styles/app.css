@@ -1,0 +1,70 @@
+/* ── App-level globals layered on top of the shadcn theme ───────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Lenis is driving scroll; let it own the wheel. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: #ffffff;
+  overflow-x: hidden;
+}
+.dark body {
+  background: #0f0f0f;
+}
+
+/* Selection */
+::selection {
+  background: #e21f26;
+  color: #fff;
+}
+
+/* Slim branded scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(226, 31, 38, 0.4);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(226, 31, 38, 0.7);
+  background-clip: padding-box;
+}
+
+/* Utility: animated gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #e21f26, #ff7a5f, #e21f26);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s linear infinite;
+}
+@keyframes gradientShift {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Soft floating blob animation for decorative elements */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
