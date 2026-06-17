@@ -67,23 +67,34 @@ export function Hero({ start = true }: { start?: boolean }) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const [videoSrc, setVideoSrc] = useState<string>("");
+
+  useEffect(() => {
+    if (start) {
+      const targetSrc = isMobile ? "/video/videoBG_mobile.mp4" : "/video/videoBG.mp4";
+      const timer = setTimeout(() => {
+        setVideoSrc(targetSrc);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [start, isMobile]);
+
   // Ensure the video is properly muted and starts playing when the preloader finishes (fixing Edge & Safari compatibility issues)
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !videoSrc) return;
 
     video.muted = true;
     video.defaultMuted = true;
+    video.load();
 
-    if (start) {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.warn("Video autoplay failed or was blocked: ", error);
-        });
-      }
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((error) => {
+        console.warn("Video autoplay failed or was blocked: ", error);
+      });
     }
-  }, [start]);
+  }, [videoSrc]);
 
   // Intro timeline — held until the preloader signals `start`.
   useEffect(() => {
@@ -158,27 +169,19 @@ export function Hero({ start = true }: { start?: boolean }) {
     >
       {/* Background */}
       <div ref={bgRef} className="absolute inset-0 z-0">
-        {isMobile ? (
-          <img
-            src={IMAGES.heroBackground}
-            alt="Concert stage"
-            className="w-full h-full object-cover object-center"
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            defaultMuted
-            playsInline
-            poster={IMAGES.heroBackground}
-            className="w-full h-full object-cover object-center"
-          >
-            <source src="/video/videoBG.mp4" type="video/mp4" />
-            <img src={IMAGES.heroBackground} alt="Concert stage" className="w-full h-full object-cover object-center" />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          defaultMuted
+          playsInline
+          poster={IMAGES.heroBackground}
+          className="w-full h-full object-cover object-center"
+        >
+          {videoSrc && <source src={videoSrc} type="video/mp4" />}
+          <img src={IMAGES.heroBackground} alt="Concert stage" className="w-full h-full object-cover object-center" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
