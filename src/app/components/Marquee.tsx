@@ -29,19 +29,22 @@ export function Marquee() {
         ease: "none",
       });
 
-      let direction = 1;
-      const st = ScrollTrigger.create({
-        start: 0,
-        end: "max",
-        onUpdate: (self) => {
-          const v = self.getVelocity();
-          if (v !== 0) direction = v < 0 ? -1 : 1;
-          const boost = gsap.utils.clamp(1, 4, 1 + Math.abs(v) / 600);
-          gsap.to(tween, { timeScale: boost * direction, duration: 0.3, overwrite: true });
-        },
-      });
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      if (isDesktop) {
+        let direction = 1;
+        const st = ScrollTrigger.create({
+          start: 0,
+          end: "max",
+          onUpdate: (self) => {
+            const v = self.getVelocity();
+            if (v !== 0) direction = v < 0 ? -1 : 1;
+            const boost = gsap.utils.clamp(1, 4, 1 + Math.abs(v) / 600);
+            gsap.to(tween, { timeScale: boost * direction, duration: 0.3, overwrite: true });
+          },
+        });
 
-      return () => st.kill();
+        return () => st.kill();
+      }
     }, track);
 
     return () => ctx.revert();

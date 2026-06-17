@@ -12,7 +12,8 @@ export function useMagnetic<T extends HTMLElement = HTMLButtonElement>(
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!el || prefersReducedMotion() || !hasFinePointer) return;
 
     const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "power3.out" });
     const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "power3.out" });
@@ -48,7 +49,8 @@ export function useTilt<T extends HTMLElement = HTMLDivElement>(max = 10) {
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!el || prefersReducedMotion() || !hasFinePointer) return;
 
     const rotX = gsap.quickTo(el, "rotationX", { duration: 0.5, ease: "power2.out" });
     const rotY = gsap.quickTo(el, "rotationY", { duration: 0.5, ease: "power2.out" });

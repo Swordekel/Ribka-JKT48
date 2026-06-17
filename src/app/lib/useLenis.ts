@@ -9,7 +9,8 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap";
  */
 export function useLenis() {
   useEffect(() => {
-    if (prefersReducedMotion()) return;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (prefersReducedMotion() || isMobile) return;
 
     const lenis = new Lenis({
       duration: 1.15,

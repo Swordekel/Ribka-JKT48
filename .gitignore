@@ -74,3 +74,5 @@ guidelines/
 
 # ─── Large Media Files (use Git LFS or external storage) ─────────────────────
 public/video/videoBG_original.mp4
+
+.vercel

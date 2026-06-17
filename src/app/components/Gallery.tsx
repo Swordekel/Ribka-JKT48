@@ -240,14 +240,7 @@ export function Gallery() {
     measure();
     // start with the first card roughly centred
     gsap.set(proxy, { x: (geo.current.vw - geo.current.cardW) / 2 });
-
-    if (prefersReducedMotion()) {
-      render();
-      return;
-    }
-
-    const tick = () => render();
-    gsap.ticker.add(tick);
+    render();
 
     const d = Draggable.create(proxy, {
       trigger: vp,
@@ -255,7 +248,11 @@ export function Gallery() {
       inertia: true,
       allowContextMenu: true,
       onPress() { draggedRef.current = false; },
-      onDrag() { draggedRef.current = true; },
+      onDrag() { 
+        draggedRef.current = true; 
+        render();
+      },
+      onThrowUpdate: render,
       onDragEnd() {
         // a tiny throw keeps the strip alive even on a flick
       },
@@ -266,7 +263,6 @@ export function Gallery() {
     window.addEventListener("resize", onResize);
 
     return () => {
-      gsap.ticker.remove(tick);
       window.removeEventListener("resize", onResize);
       d.kill();
     };
@@ -280,7 +276,7 @@ export function Gallery() {
     const cur = -Number(gsap.getProperty(proxy, "x"));
     let target = i * step - (vw - cardW) / 2;
     target = cur + gsap.utils.wrap(-loopW / 2, loopW / 2, target - cur);
-    gsap.to(proxy, { x: -target, duration: 1, ease: "power3.inOut" });
+    gsap.to(proxy, { x: -target, duration: 1, ease: "power3.inOut", onUpdate: render });
   };
 
   const handleCardClick = (i: number) => {

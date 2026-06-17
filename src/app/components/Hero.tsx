@@ -55,6 +55,16 @@ export function Hero({ start = true }: { start?: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cta1 = useMagnetic<HTMLButtonElement>(0.4);
   const cta2 = useMagnetic<HTMLButtonElement>(0.4);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Ensure the video is properly muted and starts playing when the preloader finishes (fixing Edge & Safari compatibility issues)
   useEffect(() => {
@@ -91,6 +101,8 @@ export function Hero({ start = true }: { start?: boolean }) {
   // Scroll parallax + cursor parallax.
   useEffect(() => {
     if (prefersReducedMotion()) return;
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (!isDesktop) return;
 
     const onScroll = () => {
       const y = window.scrollY;
@@ -145,19 +157,27 @@ export function Hero({ start = true }: { start?: boolean }) {
     >
       {/* Background */}
       <div ref={bgRef} className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          defaultMuted
-          playsInline
-          poster={IMAGES.heroBackground}
-          className="w-full h-full object-cover object-center"
-        >
-          <source src="/video/videoBG.mp4" type="video/mp4" />
-          <img src={IMAGES.heroBackground} alt="Concert stage" className="w-full h-full object-cover object-center" />
-        </video>
+        {isMobile ? (
+          <img
+            src={IMAGES.heroBackground}
+            alt="Concert stage"
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            defaultMuted
+            playsInline
+            poster={IMAGES.heroBackground}
+            className="w-full h-full object-cover object-center"
+          >
+            <source src="/video/videoBG.mp4" type="video/mp4" />
+            <img src={IMAGES.heroBackground} alt="Concert stage" className="w-full h-full object-cover object-center" />
+          </video>
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
