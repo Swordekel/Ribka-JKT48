@@ -1,0 +1,10 @@
+# Vercel ignore - file yang tidak perlu di-deploy ke Vercel
+
+# Video original (terlalu besar, sudah di-replace dengan versi terkompresi)
+public/video/videoBG_original.mp4
+
+# Development only
+node_modules/
+.git/
+.claude/
+guidelines/
