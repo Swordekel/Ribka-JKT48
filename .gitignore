@@ -71,3 +71,6 @@ guidelines/
 *.seed
 *.pid.lock
 .yarn-integrity
+
+# ─── Large Media Files (use Git LFS or external storage) ─────────────────────
+public/video/videoBG_original.mp4
