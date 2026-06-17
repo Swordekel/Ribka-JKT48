@@ -10,7 +10,7 @@
 export const IMAGES = {
   // Hero
   heroBackground:
-    "https://images.unsplash.com/photo-1583795484071-3c453e3a7c71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxLLXBvcCUyMGlkb2wlMjBjb25jZXJ0JTIwc3RhZ2UlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3ODE2MTM4MTV8MA&ixlib=rb-4.1.0&q=80&w=1920",
+    "/card-hero/Ribka_Budiman_JKT48_2026_29.webp",
   heroPortrait:
     "/card-hero/Ribka_Budiman_JKT48_2026_29.webp",
 

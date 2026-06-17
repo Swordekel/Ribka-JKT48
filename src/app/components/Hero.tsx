@@ -55,13 +55,14 @@ export function Hero({ start = true }: { start?: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cta1 = useMagnetic<HTMLButtonElement>(0.4);
   const cta2 = useMagnetic<HTMLButtonElement>(0.4);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    return typeof window !== "undefined" ? window.innerWidth < 768 : false;
+  });
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
